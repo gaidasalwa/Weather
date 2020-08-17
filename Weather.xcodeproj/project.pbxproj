@@ -17,7 +17,6 @@
 		7A0C7FC224E1A77F00FA0565 /* WeatherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A0C7FC124E1A77F00FA0565 /* WeatherTests.swift */; };
 		7A0C7FCD24E1A77F00FA0565 /* WeatherUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A0C7FCC24E1A77F00FA0565 /* WeatherUITests.swift */; };
 		7A317CE124E95581001A6A2B /* WeatherAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A317CE024E95581001A6A2B /* WeatherAdapter.swift */; };
-		7A317CE824E9FBE5001A6A2B /* WeatherDataProxy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A317CE724E9FBE5001A6A2B /* WeatherDataProxy.framework */; };
 		7A317CE924E9FBE6001A6A2B /* WeatherDataProxy.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7A317CE724E9FBE5001A6A2B /* WeatherDataProxy.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7A317CF524EA7D2E001A6A2B /* WeatherPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A317CF424EA7D2E001A6A2B /* WeatherPresenter.swift */; };
 		7A317CF724EA7D3B001A6A2B /* WeatherInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A317CF624EA7D3B001A6A2B /* WeatherInteractor.swift */; };
@@ -142,7 +141,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7A317CE824E9FBE5001A6A2B /* WeatherDataProxy.framework in Frameworks */,
 				1F316AC1E62A1C6FB072AA18 /* Pods_Weather.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -30,7 +30,7 @@ class TownsViewController: UITableViewController {
   }
   
   func configureView() {
-      navigationItem.title = "Towns List"
+    navigationItem.title = "Towns List"
       
     let addItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.add, target: self, action: #selector(TownsViewController.didTapAddButton))
       

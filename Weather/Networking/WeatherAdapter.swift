@@ -90,8 +90,6 @@ class WeatherAdapter {
     static let enpoint = "http://api.openweathermap.org/"
     static let apiKey = "b92fa7a70f2480d8c20a67a1833a229f"
     static let path = "data/2.5/weather"
-    static let defaultLanguageCode = "en"
-    static let refreshDuration: TimeInterval = 60 * 10
   }
   
   // MARK: - Property
@@ -120,15 +118,35 @@ extension WeatherAdapter: WeatherAdapterWeatherProtocol {
       return
     }
     proxy.retrieveDataAsynchronously { response in
-      print("response ", response)
+      let weatherDetails = response?.weather?.compactMap {
+        WeatherAdapterWeatherDetails(identifier: $0.identifier,
+                                     main: $0.main,
+                                     description: $0.description,
+                                     icon: $0.icon)
+      }
+      let main = WeatherAdapterMainWeather(temperature: response?.main?.temperature,
+                                           feelsLike: response?.main?.feelsLike,
+                                           temperatureMin: response?.main?.temperatureMin,
+                                           temperatureMax: response?.main?.temperatureMax,
+                                           pressure: response?.main?.pressure,
+                                           humidity: response?.main?.humidity)
+      let wind = WeatherAdapterWind(speed: response?.wind?.speed,
+                                    degree: response?.wind?.degree)
+      let clouds = WeatherAdapterCloudsWeather(all: response?.clouds?.all)
+      let sys = WeatherAdapterSysWeather(type: response?.sys?.type,
+                                         identifier: response?.sys?.identifier,
+                                         message: response?.sys?.message,
+                                         country: response?.sys?.country,
+                                         sunrise: response?.sys?.sunrise,
+                                         sunset: response?.sys?.sunset)
       let weatherItem = WeatherAdapterWeatherItem(coordonates: WeatherAdapterCoordonatesWeather(latitude: response?.coordonates?.latitude, longitude: response?.coordonates?.longitude),
-                                                  weather: response?.weather as! [WeatherAdapterWeatherDetailsProtocol],
+                                                  weather: weatherDetails,
                                                   base: response?.base,
-                                                  main: response?.main,
-                                                  wind: response?.wind,
-                                                  clouds: response?.clouds,
+                                                  main: main,
+                                                  wind: wind,
+                                                  clouds: clouds,
                                                   date: response?.date,
-                                                  sys: response?.sys,
+                                                  sys: sys,
                                                   timezone: response?.timezone,
                                                   visibility: response?.visibility,
                                                   identifier: response?.identifier,
@@ -136,28 +154,6 @@ extension WeatherAdapter: WeatherAdapterWeatherProtocol {
                                                   code: response?.code)
       success(GetWeatherRepositoryAdapterWeather(weatherItem: weatherItem))
     }
-//    proxy.retrieveDataAsynchronously(cachePolicy, identifier: identifier) { response, error in
-//      switch error {
-//      case let .some(error) where error.code == DataProxyErrorCode.no_internet_error_code:
-//        failure(.network)
-//        return
-//      case let .some(error) where error.code == DataProxyErrorCode.accor_user_cancelled:
-//        failure(.cancelled)
-//        return
-//      case .some:
-//        failure(.unknown)
-//        return
-//      default:
-//        break
-//      }
-//
-//      guard let model = response?.model, let userResponse = model as? UserResponse else {
-//        failure(.noData)
-//        return
-//      }
-//
-//      success(GetUserProfileRepositoryAdapterUser(userItem: userResponse.userItem))
-//    }
   }
 
   func cancel() {
@@ -192,15 +188,50 @@ private struct WeatherAdapterWeatherItem: WeatherAdapterWeatherItemProtocol {
 // MARK: - WeatherAdapterCoordonatesWeatherProtocol
 
 private struct WeatherAdapterCoordonatesWeather: WeatherAdapterCoordonatesWeatherProtocol {
-  var latitude: Double?
-  var longitude: Double?
+  let latitude: Double?
+  let longitude: Double?
 }
 
 // MARK: - WeatherAdapterWeatherDetailsProtocol
 
 private struct WeatherAdapterWeatherDetails: WeatherAdapterWeatherDetailsProtocol {
-  var identifier: Int?
-  var main: String?
-  var description: String?
-  var icon: String?
+  let identifier: Int?
+  let main: String?
+  let description: String?
+  let icon: String?
+}
+
+// MARK: - WeatherAdapterMainWeatherProtocol
+
+private struct WeatherAdapterMainWeather: WeatherAdapterMainWeatherProtocol {
+  let temperature: Double?
+  let feelsLike: Double?
+  let temperatureMin: Double?
+  let temperatureMax: Double?
+  let pressure: Double?
+  let humidity: Double?
+}
+
+// MARK: - WeatherAdapterWindProtocol
+
+private struct WeatherAdapterWind: WeatherAdapterWindProtocol {
+  let speed: Double?
+  let degree: Double?
+}
+
+// MARK: - WeatherAdapterCloudsWeatherProtocol
+
+private struct WeatherAdapterCloudsWeather: WeatherAdapterCloudsWeatherProtocol {
+  let all: Int?
+}
+
+// MARK: - WeatherAdapterSysWeatherProtocol
+
+private struct WeatherAdapterSysWeather: WeatherAdapterSysWeatherProtocol {
+  let type: Int?
+  let identifier: Int?
+  let message: Double?
+  let country: String?
+  let sunrise: Int?
+  let sunset: Int?
 }

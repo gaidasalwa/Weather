@@ -31,6 +31,18 @@ class WeatherViewController: UIViewController {
     interactor.output = weatherPresenter
     presenter = weatherPresenter
     presenter.viewDidLoad()
+    configureView()
+  }
+  
+  func configureView() {
+    navigationItem.title = "Weather Information"
+    let backItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.add, target: self, action: #selector(WeatherViewController.didTapbackButton))
+      
+      navigationItem.leftBarButtonItem = backItem
+  }
+  
+  @objc func didTapbackButton () {
+    presenter.didTapBackButton()
   }
 }
 
@@ -39,9 +51,23 @@ class WeatherViewController: UIViewController {
 extension WeatherViewController: WeatherPresenterOutput {
   func updateWeatherData(weather: WeatherItemProtocol) {
     townLabel.text = weather.name
-    temperatureLabel.text = "\(weather.temperature)" + "°"
-    windSpeedLabel.text = "\(weather.windSpeed)"
-    coordinatesLabel.text = "Latitude: " + "\(weather.latitude)" + ", Longitude: " + "\(weather.longitude)"
+    guard let temperature = weather.temperature else {
+        return
+    }
+    guard let windSpeed = weather.windSpeed else {
+        return
+    }
+    temperatureLabel.text = temperature.description + " °F"
+    windSpeedLabel.text = windSpeed.description
+    guard let latitude = weather.latitude,
+      let longitude = weather.longitude else {
+        return
+    }
+    coordinatesLabel.text = "Latitude: " + latitude.description + ", Longitude: " + longitude.description
+    guard let image = weather.image else {
+        return
+    }
+    weatherIcon.image = UIImage(named: image)
   }
 }
 

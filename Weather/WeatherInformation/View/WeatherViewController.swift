@@ -36,9 +36,9 @@ class WeatherViewController: UIViewController {
   
   func configureView() {
     navigationItem.title = "Weather Information"
-    let backItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.add, target: self, action: #selector(WeatherViewController.didTapbackButton))
-      
-      navigationItem.leftBarButtonItem = backItem
+//    let backItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.add, target: self, action: #selector(WeatherViewController.didTapbackButton))
+//      
+//      navigationItem.leftBarButtonItem = backItem
   }
   
   @objc func didTapbackButton () {
